@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sky Trip Drone - Vuela alto, graba diferente</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts (Ejemplo: Roboto y Oswald) -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --sky-blue: #87CEEB; /* Azul cielo */
+            --dark-blue: #005A9C; /* Un azul más oscuro para contraste */
+            --black: #1a1a1a;   /* Negro suave */
+            --white: #FFFFFF;
+            --gray: #f8f9fa;
+            --text-dark: #333;
+            --text-light: #f1f1f1;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.7;
+            background-color: var(--white);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            color: var(--black);
+        }
+
+        .navbar {
+            background-color: var(--black) !important;
+            padding: 1rem 0;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .navbar-brand {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            color: var(--sky-blue) !important;
+            font-weight: 700;
+        }
+        .navbar-brand img {
+            max-height: 50px; /* Ajusta si usas un logo en imagen */
+            margin-right: 10px;
+        }
+
+        .navbar .nav-link {
+            color: var(--white) !important;
+            margin: 0 10px;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .nav-link:hover,
+        .navbar .nav-link.active {
+            color: var(--sky-blue) !important;
+        }
+
+        .navbar-toggler {
+            border-color: var(--sky-blue);
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(135, 206, 235, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+
+        /* Hero Section */
+        #hero {
+            height: 100vh;
+            background: url('https://images.unsplash.com/photo-1507564904509-593809993569?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            /* Si tienes un video:
+            position: relative;
+            overflow: hidden; */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+        /* Para video de fondo:
+        #heroVideo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+            transform: translateX(-50%) translateY(-50%);
+            background-size: cover;
+        } */
+        #hero .overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 3rem;
+            border-radius: 10px;
+        }
+        #hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+        #hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+        .btn-hero {
+            background-color: var(--sky-blue);
+            border-color: var(--sky-blue);
+            color: var(--black);
+            padding: 0.75rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            border-radius: 50px;
+        }
+        .btn-hero:hover {
+            background-color: var(--dark-blue);
+            border-color: var(--dark-blue);
+            color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Secciones */
+        .section {
+            padding: 80px 0;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.8rem;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--sky-blue);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Servicios */
+        #services {
+            background-color: var(--gray);
+        }
+        .service-item {
+            text-align: center;
+            padding: 30px;
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 30px;
+            height: 100%;
+        }
+        .service-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+        .service-item .icon {
+            font-size: 3rem;
+            color: var(--sky-blue);
+            margin-bottom: 20px;
+            display: inline-block;
+            line-height: 1;
+        }
+        .service-item h4 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark-blue);
+        }
+
+        /* Portafolio */
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .portfolio-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        .portfolio-item:hover img {
+            transform: scale(1.1);
+        }
+        .portfolio-item .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 90, 156, 0.7); /* var(--dark-blue) con alpha */
+            color: var(--white);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .portfolio-item:hover .overlay {
+            opacity: 1;
+        }
+        .portfolio-item .overlay h5 {
+            color: var(--white);
+            margin-bottom: 5px;
+            font-size: 1.3rem;
+        }
+        .portfolio-item .overlay p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        /* Testimonios */
+        #testimonials {
+            background-color: var(--dark-blue);
+            color: var(--text-light);
+        }
+        #testimonials .section-title, #testimonials .section-title::after {
+            color: var(--white);
+        }
+        #testimonials .section-title::after {
+            background: var(--sky-blue);
+        }
+        .testimonial-item {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .testimonial-item img.testimonial-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid var(--sky-blue);
+            margin: 0 auto 20px auto;
+            object-fit: cover;
+        }
+        .testimonial-item h5 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: var(--white);
+        }
+        .testimonial-item .role {
+            font-style: italic;
+            color: var(--sky-blue);
+            display: block;
+            margin-bottom: 15px;
+        }
+        .testimonial-item .quote-icon {
+            font-size: 1.5rem;
+            color: var(--sky-blue);
+            opacity: 0.6;
+        }
+
+        /* Contacto */
+        #contact {
+            background-color: var(--gray);
+        }
+        .contact-info {
+            margin-bottom: 30px;
+        }
+        .contact-info .icon {
+            font-size: 1.5rem;
+            color: var(--sky-blue);
+            margin-right: 15px;
+            width: 30px;
+            text-align: center;
+        }
+        .contact-info p {
+            margin-bottom: 10px;
+        }
+        .contact-info a {
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+        .contact-info a:hover {
+            color: var(--dark-blue);
+        }
+
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 0.75rem 1rem;
+        }
+        .form-control:focus {
+            border-color: var(--sky-blue);
+            box-shadow: 0 0 0 0.2rem rgba(135, 206, 235, 0.25);
+        }
+        .btn-submit {
+            background-color: var(--sky-blue);
+            border-color: var(--sky-blue);
+            color: var(--black);
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            border-radius: 50px;
+        }
+        .btn-submit:hover {
+            background-color: var(--dark-blue);
+            border-color: var(--dark-blue);
+            color: var(--white);
+        }
+        .btn-whatsapp {
+            background-color: #25D366;
+            border-color: #25D366;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            border-radius: 50px;
+            margin-top: 15px;
+            display: inline-block;
+        }
+        .btn-whatsapp:hover {
+            background-color: #1DAE52;
+            border-color: #1DAE52;
+            color: white;
+        }
+        .btn-whatsapp .fab {
+            margin-right: 8px;
+        }
+
+        /* Pie de página */
+        footer {
+            background-color: var(--black);
+            color: var(--text-light);
+            padding: 40px 0 20px;
+            text-align: center;
+        }
+        .social-icons a {
+            color: var(--text-light);
+            font-size: 1.8rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        .social-icons a:hover {
+            color: var(--sky-blue);
+        }
+        footer p {
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        footer .contact-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        footer .contact-links a:hover {
+            color: var(--sky-blue);
+        }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 991.98px) {
+            #hero h1 {
+                font-size: 2.8rem;
+            }
+            #hero p {
+                font-size: 1.2rem;
+            }
+            .navbar-nav {
+                text-align: center;
+                background-color: rgba(0,0,0,0.9); /* Darker background for mobile menu */
+                border-radius: 5px;
+                margin-top: 10px;
+            }
+            .navbar .nav-link {
+                padding: 10px 0;
+            }
+        }
+        @media (max-width: 767.98px) {
+            .section-title {
+                font-size: 2.2rem;
+            }
+            #hero h1 {
+                font-size: 2.2rem;
+            }
+            #hero p {
+                font-size: 1rem;
+            }
+            .contact-form-column {
+                margin-top: 30px;
+            }
+        }
+
+    </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#mainNavbar" data-bs-offset="80">
+
+    <!-- Encabezado y Menú de Navegación -->
+    <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <!-- <a class="navbar-brand" href="#"><img src="path/to/your/logo.png" alt="Sky Trip Drone Logo"> Sky Trip Drone</a> -->
+            <a class="navbar-brand" href="#hero">Sky Trip Drone</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#hero">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#portfolio">Portafolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Clientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contacto</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sección Principal (Hero) -->
+    <section id="hero">
+        <!-- Para video de fondo (descomentar y reemplazar src):
+        <video autoplay muted loop id="heroVideo">
+            <source src="path/to/your/drone_video.mp4" type="video/mp4">
+            Tu navegador no soporta videos HTML5.
+        </video> -->
+        <div class="container">
+            <div class="overlay">
+                <h1>Vuela alto, graba diferente</h1>
+                <p>Capturamos el mundo desde una nueva perspectiva.</p>
+                <a href="#contact" class="btn btn-hero">Contáctanos Ahora</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Servicios -->
+    <section id="services" class="section">
+        <div class="container">
+            <h2 class="section-title">Nuestros Servicios</h2>
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item">
+                        <div class="icon"><i class="fas fa-video"></i></div>
+                        <h4>Videos FPV</h4>
+                        <p>Tomas dinámicas y cinematográficas con drones FPV para un impacto visual único.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item">
+                        <div class="icon"><i class="fas fa-calendar-alt"></i></div>
+                        <h4>Grabación de Eventos</h4>
+                        <p>Cobertura aérea profesional para eventos sociales, corporativos y deportivos.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item">
+                        <div class="icon"><i class="fas fa-street-view"></i></div>
+                        <h4>Recorridos 360</h4>
+                        <p>Experiencias inmersivas con recorridos virtuales 360° de alta calidad.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item">
+                        <div class="icon"><i class="fas fa-bullhorn"></i></div>
+                        <h4>Publicidad Aérea</h4>
+                        <p>Creamos contenido publicitario impactante desde el aire para tu marca o producto.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item">
+                        <div class="icon"><i class="fas fa-search-location"></i></div>
+                        <h4>Inspecciones con Drones</h4>
+                        <p>Inspecciones técnicas seguras y eficientes para infraestructuras y terrenos.</p>
+                    </div>
+                </div>
+                 <div class="col-lg-4 col-md-6">
+                    <div class="service-item">
+                        <div class="icon"><i class="fas fa-share-alt"></i></div>
+                        <h4>Contenido Redes Sociales</h4>
+                        <p>Videos y fotografías aéreas optimizadas para destacar en tus plataformas digitales.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Portafolio -->
+    <section id="portfolio" class="section">
+        <div class="container">
+            <h2 class="section-title">Portafolio Visual</h2>
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="portfolio-item">
+                        <img src="https://placehold.co/600x400/87CEEB/FFFFFF?text=Proyecto+Drone+1" alt="Trabajo 1">
+                        <div class="overlay">
+                            <h5>Video Corporativo Aéreo</h5>
+                            <p>Cliente XYZ - Industria</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="portfolio-item">
+                        <img src="https://placehold.co/600x400/005A9C/FFFFFF?text=Evento+Deportivo" alt="Trabajo 2">
+                        <div class="overlay">
+                            <h5>Cobertura Evento Deportivo</h5>
+                            <p>Maratón Ciudad X</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="portfolio-item">
+                        <img src="https://placehold.co/600x400/1a1a1a/87CEEB?text=Inspección+Técnica" alt="Trabajo 3">
+                         <div class="overlay">
+                            <h5>Inspección de Aerogenerador</h5>
+                            <p>Parque Eólico del Sur</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="portfolio-item">
+                        <img src="https://placehold.co/600x400/87CEEB/000000?text=Recorrido+360" alt="Trabajo 4">
+                        <div class="overlay">
+                            <h5>Recorrido Virtual Hotel</h5>
+                            <p>Hotel Paraíso Tropical</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="portfolio-item">
+                        <img src="https://placehold.co/600x400/005A9C/FFFFFF?text=Video+FPV+Extremo" alt="Trabajo 5">
+                        <div class="overlay">
+                            <h5>Tomas FPV Mountain Bike</h5>
+                            <p>Descenso Extremo</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="portfolio-item">
+                        <img src="https://placehold.co/600x400/1a1a1a/FFFFFF?text=Redes+Sociales" alt="Trabajo 6">
+                        <div class="overlay">
+                            <h5>Reel Promocional Instagram</h5>
+                            <p>Destino Turístico Regional</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Testimonios -->
+    <section id="testimonials" class="section">
+        <div class="container">
+            <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+            <div class="row">
+                <div class="col-md-6 col-lg-4">
+                    <div class="testimonial-item">
+                        <img src="https://placehold.co/100x100/FFFFFF/333333?text=Cliente+1" alt="Cliente 1" class="testimonial-img">
+                        <h5>Ana Pérez</h5>
+                        <span class="role">Directora de Marketing, Empresa Alfa</span>
+                        <p><i class="fas fa-quote-left quote-icon"></i> Sky Trip Drone superó nuestras expectativas. Las tomas aéreas para nuestra campaña fueron espectaculares y el equipo muy profesional. <i class="fas fa-quote-right quote-icon"></i></p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="testimonial-item">
+                        <img src="https://placehold.co/100x100/FFFFFF/333333?text=Cliente+2" alt="Cliente 2" class="testimonial-img">
+                        <h5>Carlos López</h5>
+                        <span class="role">Organizador, Eventos Beta</span>
+                        <p><i class="fas fa-quote-left quote-icon"></i> La cobertura del evento fue impecable. El video resumen con tomas de dron le dio un toque único y muy dinámico. ¡Totalmente recomendados! <i class="fas fa-quote-right quote-icon"></i></p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="testimonial-item">
+                        <img src="https://placehold.co/100x100/FFFFFF/333333?text=Cliente+3" alt="Cliente 3" class="testimonial-img">
+                        <h5>Sofía Gómez</h5>
+                        <span class="role">Gerente, Constructora Gamma</span>
+                        <p><i class="fas fa-quote-left quote-icon"></i> Las inspecciones con dron nos ahorraron tiempo y dinero, además de ser mucho más seguras. El informe detallado fue muy útil. <i class="fas fa-quote-right quote-icon"></i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Contacto -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Contáctanos</h2>
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="contact-info">
+                        <h4>Información de Contacto</h4>
+                        <p>Estamos listos para llevar tu proyecto al siguiente nivel. ¡Hablemos!</p>
+                        <p><i class="fas fa-map-marker-alt icon"></i> Ubicación (Opcional, ej: Bogotá, Colombia)</p>
+                        <p><i class="fas fa-envelope icon"></i> <a href="mailto:gyovanotip@gmail.com">gyovanotip@gmail.com</a></p>
+                        <p><i class="fas fa-phone icon"></i> <a href="tel:+573128509797">+57 312 850 9797</a></p>
+                        
+                        <a href="https://wa.me/573128509797?text=Hola%20Sky%20Trip%20Drone,%20estoy%20interesado%20en%20sus%20servicios." target="_blank" class="btn btn-whatsapp">
+                            <i class="fab fa-whatsapp"></i> Chatea por WhatsApp
+                        </a>
+                    </div>
+                     <div class="mt-4">
+                        <h4>Síguenos</h4>
+                         <div class="social-icons contact-page-social">
+                            <a href="https://www.youtube.com/@skytrip6" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                            <a href="https://www.instagram.com/skytrip_drone/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.tiktok.com/@skytrip_drone" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                            <a href="https://www.facebook.com/?ref=logo" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7 contact-form-column">
+                    <h4>Envíanos un Mensaje</h4>
+                    <form action="#" method="post"> <!-- Reemplaza # con tu script de backend o servicio -->
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="name" placeholder="Tu Nombre Completo" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" name="email" placeholder="Tu Correo Electrónico" required>
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" name="message" rows="6" placeholder="Tu Mensaje" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-submit">Enviar Mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pie de Página -->
+    <footer>
+        <div class="container">
+            <div class="social-icons">
+                <a href="https://www.youtube.com/@skytrip6" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.instagram.com/skytrip_drone/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@skytrip_drone" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.facebook.com/?ref=logo" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            </div>
+            <div class="contact-links mt-3">
+                 <a href="mailto:gyovanotip@gmail.com">gyovanotip@gmail.com</a> | <a href="tel:+573128509797">+57 312 850 9797</a>
+            </div>
+            <p>&copy; 2024 Sky Trip Drone. Todos los derechos reservados.</p>
+            <p>Diseñado con <i class="fas fa-heart" style="color: var(--sky-blue);"></i> para la innovación aérea.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle (incluye Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Smooth scrolling para los enlaces de navegación
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                // No prevenir si es un enlace externo o el botón de WhatsApp
+                if (this.getAttribute('href').startsWith('#') && this.getAttribute('href').length > 1) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Opcional: Cambiar el fondo de la barra de navegación al hacer scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('mainNavbar');
+            if (window.scrollY > 50) {
+                navbar.style.backgroundColor = 'rgba(26, 26, 26, 0.95)'; // --black con un poco de transparencia
+                 navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            } else {
+                navbar.style.backgroundColor = 'var(--black)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // Opcional: Activar link de navegación según la sección visible
+        const sections = document.querySelectorAll('section[id]');
+        const navLi = document.querySelectorAll('.navbar-nav .nav-item .nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLi.forEach(li => {
+                li.classList.remove('active');
+                if (li.getAttribute('href') === `#${current}`) {
+                    li.classList.add('active');
+                }
+            });
+             // Caso especial para Hero al inicio
+            if (window.pageYOffset < sections[0].offsetTop - sections[0].clientHeight / 3) {
+                 navLi.forEach(li => li.classList.remove('active'));
+                 const homeLink = document.querySelector('.navbar-nav .nav-item .nav-link[href="#hero"]');
+                 if(homeLink) homeLink.classList.add('active');
+            }
+        });
+
+    </script>
+</body>
+</html>
